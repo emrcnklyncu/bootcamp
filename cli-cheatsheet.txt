@@ -1,0 +1,53 @@
+docker logout
+docker login
+docker search ngnix
+docker pull nginx:latest
+docker images
+docker tag $imageid emircank/nginx:v1.0.0
+docker push emircank/nginx:v1.0.0
+docker save emircank/nginx:v1.0.0 > nginx-v1.0.0.tar
+docker run --publish 8080:80 --detach --name emir-nginx emircank/nginx:v1.0.0
+docker ps
+docker exec -it emir-nginx sh
+docker exec -it emir-nginx sh -c "mkdir /home/linktera && echo 'hello world' >> /home/linktera/bootcamp.txt"
+docker stop emir-nginx
+docker restart emir-nginx
+docker logs emir-nginx -f
+docker logs emir-nginx --tail 100
+docker rm $containerid --force
+docker rm $(docker ps --filter status=exited -q)
+docker rmi nginx:latest
+docker rmi $imageid --force
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+
+
+docker build --tag emircank/bootcamp:api-v1.0.0 .
+docker build --tag emircank/bootcamp:ui-v1.0.0 .
+docker run --publish 8080:8080 --detach --name bootcamp-api emircank/bootcamp:api-v1.0.0
+docker exec -it bootcamp-api sh
+docker run --publish 8082:8082 --detach --name bootcamp-ui emircank/bootcamp:ui-v1.0.0
+docker exec -it bootcamp-ui sh
+docker stop bootcamp-api
+docker stop bootcamp-ui
+
+---------------------------
+
+mvn spring-boot:run
+node app.js
+
+---------------------------
+
+docker-compose up --detach
+docker-compose down
+docker-compose build
+docker-compose ps
+docker-compose images
+
+docker-compose down
+docker-compose build
+docker-compose up --detach
+
+docker-compose scale api=3
+
+docker network ls
+
